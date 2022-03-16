@@ -1,0 +1,44 @@
+package week4.day1;
+
+import java.time.Duration;
+
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class AlertsAndFramesAssignment5a {
+
+	public static void main(String[] args) {
+
+		// setup driver and prepare browser
+		WebDriverManager.chromedriver().setup();
+		ChromeDriver driver = new ChromeDriver();
+
+		driver.navigate().to("https://www.w3schools.com/js/tryit.asp?filename=tryjs_confirm");
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+
+		// click try it button in frame
+		driver.switchTo().frame("iframeResult");
+		driver.findElement(By.xpath("//button[text()='Try it']")).click();
+
+		// click alert ok
+		Alert alert = driver.switchTo().alert();
+		System.out.println("Alert message is - " + alert.getText());
+		alert.accept();
+		System.out.println("Alert accepted");
+
+		// verify alert clicked
+		// driver.switchTo().frame("iframeResult");
+		// not needed once alert is handled controls comes back to same iframe tag
+		System.out
+				.println("After clicking Alert this message displays - " + driver.findElement(By.id("demo")).getText());
+
+		// close browser
+		driver.quit();
+
+	}
+
+}
